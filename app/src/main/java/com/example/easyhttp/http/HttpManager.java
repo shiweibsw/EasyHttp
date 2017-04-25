@@ -27,10 +27,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by shiwei on 2017/4/10.
- */
-
 public class HttpManager {
     public static final String TAG=HttpManager.class.getSimpleName();
     private static final int DEFAULT_TIMEOUT = 5;

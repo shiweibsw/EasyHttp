@@ -13,9 +13,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.exceptions.CompositeException;
 import io.rx_cache2.RxCacheException;
 
-/**
- * Created by shiwei on 2017/4/10.
- */
 
 public class HttpSubscriber<T> implements Observer<T> {
     private OnResultCallBack mOnResultListener;

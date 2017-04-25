@@ -10,7 +10,6 @@ import com.example.easyhttp.http.callback.OnResultCallBack;
 import com.example.easyhttp.http.subscriber.HttpSubscriber;
 
 public class MainActivity extends AppCompatActivity {
-    //基于RxJava2+Retrofit+RxCache的网络请求封装
     private static final String TAG = MainActivity.class.getSimpleName();
     private HttpSubscriber mHttpObserver;
     private TextView resultTv;
