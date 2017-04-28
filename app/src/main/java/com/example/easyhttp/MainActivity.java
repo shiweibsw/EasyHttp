@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 result="";
                 resultTv.setText("");
-                HttpManager.getInstance().getDatasWithCache(mHttpObserver, 1, 10, "json", false);
+                HttpManager.getInstance().getDatasWithCache(mHttpObserver, 1, 10, "json1", false);
             }
         });
 
