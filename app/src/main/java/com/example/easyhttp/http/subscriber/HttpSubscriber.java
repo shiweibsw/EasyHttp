@@ -52,7 +52,15 @@ public class HttpSubscriber<T> implements Observer<T> {
                 }
             }
         }else {
-            mOnResultListener.onError(ApiException.Code_Other,e.getMessage());
+            String msg = e.getMessage();
+            int code;
+            if (msg.contains("#")) {
+                code = Integer.parseInt(msg.split("#")[0]);
+                mOnResultListener.onError(code, msg.split("#")[1]);
+            } else {
+                code = ApiException.Code_Default;
+                mOnResultListener.onError(code, msg);
+            }
         }
     }
 

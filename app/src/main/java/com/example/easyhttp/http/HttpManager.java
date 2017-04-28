@@ -91,11 +91,7 @@ public class HttpManager {
                         if (code!=Constant.SUCCESS_CODE) {
                             throw new ApiException(code, response.getMsg());
                         } else {
-                            if (response.getDatas() == null) {
-                                return (T) response.getMsg();
-                            } else {
-                                return response.getDatas();
-                            }
+                            return response.getDatas();
                         }
                     }
                 })
