@@ -9,6 +9,7 @@ import com.example.easyhttp.http.api.ApiResponse;
 import com.example.easyhttp.http.api.ApiService;
 import com.example.easyhttp.http.cache.CacheProvider;
 import com.example.easyhttp.http.exception.ApiException;
+import com.example.easyhttp.http.parser.GsonTSpeaker;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.concurrent.TimeUnit;
@@ -21,7 +22,6 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import io.rx_cache2.EvictProvider;
 import io.rx_cache2.internal.RxCache;
-import io.victoralbertos.jolyglot.GsonSpeaker;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -61,7 +61,7 @@ public class HttpManager {
                 .build();
 
         cacheProvider = new RxCache.Builder()
-                .persistence(mContext.getFilesDir(), new GsonSpeaker())
+                .persistence(mContext.getFilesDir(), new GsonTSpeaker())
                 .using(CacheProvider.class);
 
         mApiService = mRetrofit.create(ApiService.class);

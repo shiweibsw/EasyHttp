@@ -5,6 +5,10 @@
 基于RxJava2+Retrofit2+RxCache的网络请求框架
 
 ## 更新日志
+
+#### 2017.05.04
+* 增加自定义的GsonTSpeaker，解决ClassCastException问题。
+
 #### 2017.04.28
 * onError(int code, String errorMsg)非网络问题不再统一返回1003，而是返回服务器的错误状态码(万一有用呢\(^o^)/~)。
 
