@@ -6,6 +6,11 @@
 
 ## 更新日志
 
+#### 2018.1.02
+* 使用Kotlin重构；
+* 增加生命周期管理；
+* 支持动态修改BaseUrl。
+
 #### 2017.05.04
 * 增加自定义的GsonTSpeaker，解决ClassCastException问题。
 
