@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.easyhttp.*
 import com.example.easyhttp.http.api.ApiResponse
 import com.example.easyhttp.http.api.ApiService
+import com.example.easyhttp.http.convert.CustomGsonConverterFactory
 import com.example.easyhttp.http.parser.DefaultUrlParser
 import com.example.easyhttp.http.parser.UrlParser
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -18,7 +19,6 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -52,13 +52,14 @@ object HttpManager {
         okHttpClient = builder.build()
 
         mRetrofit = Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(CustomGsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(BASE_URL)
                 .client(okHttpClient)
                 .build()
         mApiService = mRetrofit.create(ApiService::class.java)
     }
+
 
     private fun <T> toSubscribe(o: Observable<ApiResponse<T>>, s: Observer<T>) {
         o.subscribeOn(Schedulers.io())
