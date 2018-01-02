@@ -37,15 +37,20 @@ object HttpManager {
 
     init {
         cacheCustomDomain()
-        var mVolunteerInterceptor = Interceptor { it.proceed(processRequest(it.request())) }
-
         val builder = OkHttpClient.Builder()
         builder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
-                .addInterceptor(mVolunteerInterceptor)
+                .addInterceptor(initRedirectInterceptor())
                 .addInterceptor(initHttpLoggingInterceptor())
+                .addInterceptor { chain ->
+                    val original = chain!!.request()
+                    val requestBuilder = original.newBuilder().header("Accept", "application/json")
+                    val request = requestBuilder.build()
+                    chain.proceed(request)
+                }
 
         okHttpClient = builder.build()
+
         mRetrofit = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -76,8 +81,7 @@ object HttpManager {
      * 重定向拦截器
      */
     private fun initRedirectInterceptor(): Interceptor {
-        var mVolunteerInterceptor = Interceptor { it.proceed(processRequest(it.request())) }
-        return mVolunteerInterceptor
+        return Interceptor { it.proceed(processRequest(it.request())) }
     }
 
     /**
@@ -99,7 +103,6 @@ object HttpManager {
         if (domainName.isNotEmpty()) {
             httpUrl = fetchDomain(domainName)
             newBuilder.removeHeader(DOMAIN)
-            Log.i("HttpManager","domainName:$domainName")
         }
         if (null != httpUrl) {
             val newUrl = mUrlParser.parseUrl(httpUrl, request.url())
@@ -134,7 +137,6 @@ object HttpManager {
         val parseUrl = HttpUrl.parse(url)
         return parseUrl!!
     }
-
 
 
     fun getDatas(subscriber: Observer<TestBean>, pno: Int, ps: Int, dtype: String) {

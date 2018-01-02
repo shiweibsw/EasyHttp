@@ -13,10 +13,9 @@ import retrofit2.http.POST
  * Created by shiwei on 2018/1/2.
  */
 interface ApiService {
-
     @Headers("$DOMAIN:$DOMAIN_TEST")
     @FormUrlEncoded
-    @POST("query?key=7c2d1da3b8634a2b9fe8848c3a9edcba")
+    @POST("weixin/query?key=7c2d1da3b8634a2b9fe8848c3a9edcba")
     fun getDatas(@Field("pno") pno: Int, @Field("ps") ps: Int, @Field("dtype") dtype: String): Observable<ApiResponse<TestBean>>
 
 }
