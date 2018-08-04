@@ -4,9 +4,13 @@ import android.util.Log
 import com.example.easyhttp.*
 import com.example.easyhttp.http.api.ApiResponse
 import com.example.easyhttp.http.api.ApiService
+import com.example.easyhttp.http.cache.data.CacheResult
+import com.example.easyhttp.http.cache.stategy.CacheStrategy
+import com.example.easyhttp.http.cache.stategy.IObservableStrategy
 import com.example.easyhttp.http.convert.CustomGsonConverterFactory
 import com.example.easyhttp.http.parser.DefaultUrlParser
 import com.example.easyhttp.http.parser.UrlParser
+import com.hengda.muse.basicservice.repository.extend.rxCache
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import io.reactivex.Observable
 import io.reactivex.Observer
@@ -60,12 +64,29 @@ object HttpManager {
         mApiService = mRetrofit.create(ApiService::class.java)
     }
 
-
+    /**
+     * 不需要缓存数据时使用此Observable
+     */
     private fun <T> toSubscribe(o: Observable<ApiResponse<T>>, s: Observer<T>) {
         o.subscribeOn(Schedulers.io())
                 .map(Function<ApiResponse<T>, T>() { response ->
                     response.getDatas()
                 }).unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(s)
+    }
+
+    /**
+     * 需要缓存数据时使用此方法，strategy缓存规则默认优先网络
+     */
+    inline fun <reified T> toSubscribeWithCache(o: Observable<ApiResponse<T>>, s: Observer<T>, key: String, strategy: IObservableStrategy = CacheStrategy.firstRemote()) {
+        o.subscribeOn(Schedulers.io())
+                .map { it.getDatas() }
+                .rxCache(key, strategy)
+                .map(Function<CacheResult<T>, T>() { response ->
+                    response.data
+                })
+                .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s)
     }
@@ -121,7 +142,7 @@ object HttpManager {
             return ""
         if (headers.size > 1)
             throw IllegalArgumentException("Only one Domain-Name in the headers")
-        return request.header(DOMAIN)
+        return request.header(DOMAIN)!!
     }
 
     /**
@@ -142,6 +163,10 @@ object HttpManager {
 
     fun getDatas(subscriber: Observer<TestBean>, pno: Int, ps: Int, dtype: String) {
         toSubscribe(mApiService.getDatas(pno, ps, dtype), subscriber)
+    }
+
+    fun getDatasCached(subscriber: Observer<TestBean>, pno: Int, ps: Int, dtype: String) {
+        toSubscribeWithCache(mApiService.getDatas(pno, ps, dtype), subscriber, "getDatasCached")
     }
 
 
