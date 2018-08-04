@@ -31,29 +31,22 @@
 
 ####1 引入插件
 
-    //Rxjava2
-    compile 'io.reactivex.rxjava2:rxjava:2.0.7'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    //Retrofit2
-    compile 'com.squareup.retrofit2:retrofit:latest.release'
-    compile 'com.squareup.retrofit2:converter-gson:latest.release'
-    compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
-    //RxCache
-    compile "com.github.VictorAlbertos.RxCache:runtime:1.8.0-2.x"
-    compile 'com.github.VictorAlbertos.Jolyglot:gson:0.0.3'
-    //Okhttp-interceptor
-    compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
-    
-    compile 'com.google.code.gson:gson:2.8.5'
-    compile 'com.jakewharton:disklrucache:2.0.2'
+
+        compile 'io.reactivex.rxjava2:rxjava:2.1.8'
+        compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+        compile 'com.squareup.retrofit2:retrofit:latest.release'
+        compile 'com.squareup.retrofit2:converter-gson:latest.release'
+        compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+        compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
+        compile "android.arch.lifecycle:runtime:1.0.3"
+        compile 'com.google.code.gson:gson:2.8.5'
+        compile 'com.jakewharton:disklrucache:2.0.2'
 
 #### 2 将http包下的所有内容拷贝到工程；
 
 **ApiResponse**——封装的返回数据模板（里面的error_code，reason，result名称需要跟后台对应好，通常情况下error_code代码状态码，reason为成功或失败的提示信息，result中为具体的数据，由于数据格式未知所以使用泛型代表）
 
 **ApiService**——Retrofit的数据请求接口。注意一下每个方法的返回值类型。（我们真正需要的是TestBean中的数据它必须被ApiResponse包装，最后返回Observable类型）
-
-**CacheProvider**——RxCache的缓存接口，注意它的第一个参数类型必须和Retrofit数据请求接口的返回值类型一样。
 
 **OnResultCallBack**——请求成功或失败的回调。
 
@@ -64,5 +57,21 @@
 **HttpManager**——发起请求的管理类。
 
 #### 3 配置好BASE_URL及SUCCESS_CODE；
+
 #### 4 使用方式详见Demo
+
+#### 5 缓存类型
+缓存模块来自 此处 https://github.com/z-chu/RxCache
+
+在`CacheStrategy` 类中提供如下缓存策略：
+
+ 策略选择                   | 摘要      
+ ------------------------- | ------- 
+ firstRemote()             | 优先网络
+ firstCache() |优先缓存
+ firstCacheTimeout(milliSecond) |优先缓存,并设置超时时间
+ onlyRemote() | 仅加载网络，但数据依然会被缓存
+ onlyCache()           | 仅加载缓存 
+ cacheAndRemote()              | 先加载缓存，后加载网络   
+ none()              | 仅加载网络，不缓存
 

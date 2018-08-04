@@ -52,7 +52,6 @@ object HttpManager {
                     val request = requestBuilder.build()
                     chain.proceed(request)
                 }
-
         okHttpClient = builder.build()
 
         mRetrofit = Retrofit.Builder()
@@ -160,7 +159,6 @@ object HttpManager {
         return parseUrl!!
     }
 
-
     fun getDatas(subscriber: Observer<TestBean>, pno: Int, ps: Int, dtype: String) {
         toSubscribe(mApiService.getDatas(pno, ps, dtype), subscriber)
     }
@@ -168,6 +166,5 @@ object HttpManager {
     fun getDatasCached(subscriber: Observer<TestBean>, pno: Int, ps: Int, dtype: String) {
         toSubscribeWithCache(mApiService.getDatas(pno, ps, dtype), subscriber, "getDatasCached")
     }
-
 
 }

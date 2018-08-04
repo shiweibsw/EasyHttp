@@ -16,13 +16,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         RxCache.initializeDefault(RxCache.Builder()
-                .appVersion(2)
+                .appVersion(1)
                 .diskDir(File(cacheDir.path + File.separator + "data-cache"))
                 .diskConverter(GsonDiskConverter())
                 .diskMax((20 * 1024 * 1024).toLong())
                 .memoryMax(2 * 1024 * 1024)
                 .setDebug(true)
                 .build())
+
         btn.setOnClickListener {
             resultStr = ""
             HttpManager.getDatasCached(HttpSubscriber(object : OnResultCallBack<TestBean> {
