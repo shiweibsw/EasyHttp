@@ -43,6 +43,9 @@
     compile 'com.github.VictorAlbertos.Jolyglot:gson:0.0.3'
     //Okhttp-interceptor
     compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
+    
+    compile 'com.google.code.gson:gson:2.8.5'
+    compile 'com.jakewharton:disklrucache:2.0.2'
 
 #### 2 将http包下的所有内容拷贝到工程；
 
@@ -61,5 +64,5 @@
 **HttpManager**——发起请求的管理类。
 
 #### 3 配置好BASE_URL及SUCCESS_CODE；
-#### 4 使用方式详见Demo，如果对RxCache不了解，看[这里](https://github.com/VictorAlbertos/RxCache)
+#### 4 使用方式详见Demo
 
