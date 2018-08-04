@@ -2,7 +2,17 @@
 ## EasyHttp
 
 ## 概述
-基于RxJava2+Retrofit2+RxCache的网络请求框架
+基于RxJava2+Retrofit2+RxCache的网络请求框架，用最简洁的方式完成网络请求
+    
+     HttpManager.getDatasCached(HttpSubscriber(object : OnResultCallBack<TestBean> {
+                    override fun onSuccess(t: TestBean) {
+                     
+                    }
+                    override fun onError(code: Int, errorMsg: String) {
+                       
+                    }
+                }, lifecycle), 1, 10, "json")
+
 
 ## 更新日志
 
