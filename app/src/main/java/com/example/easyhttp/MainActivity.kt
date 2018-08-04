@@ -27,12 +27,14 @@ class MainActivity : AppCompatActivity() {
         btn.setOnClickListener {
             resultStr = ""
             HttpManager.getDatasCached(HttpSubscriber(object : OnResultCallBack<TestBean> {
+                //getDatasNoCache
                 override fun onSuccess(t: TestBean) {
                     t.list.forEach {
                         resultStr += it.toString()
                         result.text = resultStr
                     }
                 }
+
                 override fun onError(code: Int, errorMsg: String) {
                     result.text = "onError: code:$code  errorMsg:$errorMsg";
                 }
